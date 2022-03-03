@@ -2,7 +2,7 @@ import unittest
 import time
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys 
+from selenium.webdriver.common.keys import Keys
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -19,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # Ela percebe quue o título da página e o cabeçalho mencionam listas de tarefas (to-do)
         self.assertIn('To-Do', self.browser.title)
-        header_text = self.browser.find_element('h1').text
+        header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('To-Do', header_text)
 
         # Ela é convidada a inserir um item de tarefa imediatamente
@@ -27,7 +27,7 @@ class NewVisitorTest(unittest.TestCase):
         self.assertEqual(
             input_box.get_attribute('placeholder'),
             'Enter a to-do item'
-            )
+        )
 
         # Ela digita "Comprar penas de pavão" em uma caixa de texto "o hooby de Bruna é fazer iscas para pescas com Felipe"
         input_box.send_keys('Comprar penas de pavão')
@@ -38,10 +38,11 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_name('tr')
+        row = table.find_elements_by_name('tr')
         self.assertTrue(
-            any(row.text == '1: Compre penas de pavão')
-            )
+            any(row.text == '1: Compre penas de pavão'),
+            "New to-do item did not appear in table"
+        )
 
         self.fail('Finish the test!')
 
